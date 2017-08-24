@@ -81,37 +81,41 @@ function scene:create(event)
 
 	physics.pause()
 
+	--display.setDefault("background", 1, 0, 0)
+
 	-- create stick for the ship
 	stickShip = StickLib.NewStick(
 	{
-		x = display.contentWidth*.15,
-		y = display.contentHeight*.85,
+		--x = display.contentWidth*.15,
+		--y = display.contentHeight*.85,
+		x = 0,
+		y = 0,
 		imageSheet = shooterSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
 		scale = 2.0,
 		borderSize = 64,
 		snapBackSpeed = .2,
-		R = 255,
+		R = 0,
 		G = 0, 
 		B = 0
 	})
 
 	-- create stick for the gun
-	stickGun = StickLib.NewStick(
+	--[[stickGun = StickLib.NewStick(
 	{
-		x = display.contentWidth*.85,
-		y = display.contentHeight*.85,
+		x = 1920,
+		y = 1440,
 		imageSheet = shooterSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
 		scale = 2.0,
 		borderSize = 64,
 		snapBackSpeed = .2,
-		R = 255,
+		R = 0,
 		G = 0, 
 		B = 0
-	})
+	})]]--
 
 	physics.start()
 end
