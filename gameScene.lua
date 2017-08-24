@@ -88,12 +88,12 @@ function scene:create(event)
 	{
 		--x = display.contentWidth*.15,
 		--y = display.contentHeight*.85,
-		x = 0,
-		y = 0,
+		x = 220,
+		y = 1080-220,
 		imageSheet = shooterSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
-		scale = 2.0,
+		scale = 1.5,
 		borderSize = 64,
 		snapBackSpeed = .2,
 		R = 0,
@@ -118,6 +118,7 @@ function scene:create(event)
 	})]]--
 
 	physics.start()
+
 end
 
 -----------------------------------------------------------
