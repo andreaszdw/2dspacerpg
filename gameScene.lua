@@ -86,14 +86,12 @@ function scene:create(event)
 	-- create stick for the ship
 	stickShip = StickLib.NewStick(
 	{
-		--x = display.contentWidth*.15,
-		--y = display.contentHeight*.85,
-		x = 220,
-		y = 1080-220,
+		x = 210,
+		y = 800,
 		imageSheet = shooterSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
-		scale = 1.5,
+		scale = 2.0,
 		borderSize = 64,
 		snapBackSpeed = .2,
 		R = 0,
@@ -115,7 +113,10 @@ function scene:create(event)
 		R = 0,
 		G = 0, 
 		B = 0
-	})]]--
+	})
+
+	local centerRect = display.newRect(960, 540, 1080, 1080)
+	centerRect:setFillColor(1, 0, 0)
 
 	physics.start()
 
