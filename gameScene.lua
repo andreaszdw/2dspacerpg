@@ -100,10 +100,10 @@ function scene:create(event)
 	})
 
 	-- create stick for the gun
-	--[[stickGun = StickLib.NewStick(
+	stickGun = StickLib.NewStick(
 	{
-		x = 1920,
-		y = 1440,
+		x = 1710,
+		y = 800,
 		imageSheet = shooterSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
