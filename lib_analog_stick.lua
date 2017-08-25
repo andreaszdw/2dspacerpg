@@ -186,13 +186,6 @@ function NewStick( Props )
         end
  
         Group.Thumb:addEventListener( "touch", Group.onDrag )
-
-        print("x/y         :" .. Group.x .. "/" .. Group.y)
-        print("width/height:" .. Group.width .. "/" .. Group.height)
-        print("anchor x/y  :" .. Group.anchorX .. "/" .. Group.anchorY)
-        local actualBoxX, actualBoxY = Group:localToContent( 0,0 )
-        print( actualBoxX, actualBoxY )
-
  
         return Group
  

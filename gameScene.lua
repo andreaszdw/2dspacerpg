@@ -43,14 +43,16 @@ local stickShip -- for the ship
 local stickGun -- for the gun
 
 -- set text
-local topText = display.newText( uiGroup, "", display.contentWidth/2, 150, "assets/fonts/kenvector_future.ttf", 100 )
+local stickShipText = display.newText( uiGroup, "Stick Ship Info:", 430, 10, "assets/fonts/kenvector_future.ttf", 20 )
+stickShipText.anchorX = 0
+stickShipText.anchorY = 0
 
 local gradient = {
     type="gradient",
     color1={1, 0, 0}, color2={1, 1, 0}, direction="down"
 }
 
-topText:setFillColor(gradient)
+stickShipText:setFillColor(gradient)
 
 -- activate multitouch
 system.activate("multitouch")
@@ -81,7 +83,8 @@ function scene:create(event)
 
 	physics.pause()
 
-	--display.setDefault("background", 1, 0, 0)
+	local centerRect = display.newRect(backGroup, 960, 540, 1080, 1080)
+	centerRect:setFillColor(0.1, 0.1, 0.5)
 
 	-- create stick for the ship
 	stickShip = StickLib.NewStick(
@@ -114,9 +117,6 @@ function scene:create(event)
 		G = 0, 
 		B = 0
 	})
-
-	local centerRect = display.newRect(960, 540, 1080, 1080)
-	centerRect:setFillColor(1, 0, 0)
 
 	physics.start()
 
