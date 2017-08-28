@@ -128,6 +128,8 @@ function scene:create(event)
 
 	physics.pause()
 
+	print(math.huge)
+
 	local centerRect = display.newRect(backGroup, 960, 540, 1080, 1080)
 	centerRect:setFillColor(0.1, 0.1, 0.5)
 
