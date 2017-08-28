@@ -20,7 +20,7 @@ local sheetInfo = require("sheet") --("shooterSheet")
 local physics = require("physics")
 
 -- add analog stick
-local StickLib = require("lib_analog_stick")
+local StickLib = require("analog_stick.lib_analog_stick")
 
 -- new image sheet
 local shooterSheet = graphics.newImageSheet ("assets/images/sheet.png", sheetInfo:getSheet()) --( "assets/images/shooterSheet.png", sheetInfo:getSheet() )
@@ -42,17 +42,54 @@ local uiGroup = display.newGroup()
 local stickShip -- for the ship
 local stickGun -- for the gun
 
--- set text
-local stickShipText = display.newText( uiGroup, "Stick Ship Info:", 430, 10, "assets/fonts/kenvector_future.ttf", 20 )
-stickShipText.anchorX = 0
-stickShipText.anchorY = 0
+-- set Info text for stickShip
+local stickShipHeader = display.newText( uiGroup, "Stick Ship", 10, 10, "assets/fonts/kenvector_future.ttf", 40 )
+stickShipHeader.anchorX = 0
+stickShipHeader.anchorY = 0
+
+local stickShipAngle = display.newText( uiGroup, "Angle: 0", 10, 50, "assets/fonts/kenvector_future.ttf", 40 )
+stickShipAngle.anchorX = 0
+stickShipAngle.anchorY = 0
+
+local stickShipDistance = display.newText( uiGroup, "Distance: 0", 10, 90, "assets/fonts/kenvector_future.ttf", 40 )
+stickShipDistance.anchorX = 0
+stickShipDistance.anchorY = 0
+
+local stickShipPercent = display.newText( uiGroup, "Percent: 0", 10, 130, "assets/fonts/kenvector_future.ttf", 40 )
+stickShipPercent.anchorX = 0
+stickShipPercent.anchorY = 0
+
+-- set Info text for stickGun
+local stickGunHeader = display.newText( uiGroup, "Stick Ship", 1510, 10, "assets/fonts/kenvector_future.ttf", 40 )
+stickGunHeader.anchorX = 0
+stickGunHeader.anchorY = 0
+
+local stickGunAngle = display.newText( uiGroup, "Angle: 0", 1510, 50, "assets/fonts/kenvector_future.ttf", 40 )
+stickGunAngle.anchorX = 0
+stickGunAngle.anchorY = 0
+
+local stickGunDistance = display.newText( uiGroup, "Distance: 0", 1510, 90, "assets/fonts/kenvector_future.ttf", 40 )
+stickGunDistance.anchorX = 0
+stickGunDistance.anchorY = 0
+
+local stickGunPercent = display.newText( uiGroup, "Percent: 0", 1510, 130, "assets/fonts/kenvector_future.ttf", 40 )
+stickGunPercent.anchorX = 0
+stickGunPercent.anchorY = 0
 
 local gradient = {
     type="gradient",
     color1={1, 0, 0}, color2={1, 1, 0}, direction="down"
 }
 
-stickShipText:setFillColor(gradient)
+stickShipHeader:setFillColor(gradient)
+stickShipAngle:setFillColor(gradient)
+stickShipDistance:setFillColor(gradient)
+stickShipPercent:setFillColor(gradient)
+
+stickGunHeader:setFillColor(gradient)
+stickGunAngle:setFillColor(gradient)
+stickGunDistance:setFillColor(gradient)
+stickGunPercent:setFillColor(gradient)
 
 -- activate multitouch
 system.activate("multitouch")
@@ -62,7 +99,15 @@ system.activate("multitouch")
 -- the update function, on every enterframe even
 --
 -----------------------------------------------------------
-local function update(event)
+local function onEnterFrame(event)
+
+	stickShipAngle.text = "Angle: " .. stickShip:getAngle()
+	stickShipDistance.text = "Distance: " .. stickShip:getDistance()
+	stickShipPercent.text = "Percent: " .. stickShip:getPercent()
+
+	stickGunAngle.text = "Angle: " .. stickGun:getAngle()
+	stickGunDistance.text = "Distance: " .. stickGun:getDistance()
+	stickGunPercent.text = "Percent: " .. stickGun:getPercent()
 
 end
 
@@ -153,7 +198,7 @@ scene:addEventListener("show", scene)
 scene:addEventListener("hide", scene)
 scene:addEventListener("destroy", scene)
 
-Runtime:addEventListener("enterFrame", update)
+Runtime:addEventListener("enterFrame", onEnterFrame)
 Runtime:addEventListener("collision", onCollision)
 
 -----------------------------------------------------------
