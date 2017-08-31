@@ -22,8 +22,14 @@ local physics = require("physics")
 -- add analog stick
 local StickLib = require("analog_stick.lib_analog_stick")
 
+-- add starfield
+local sf = require("starfield")
+
+-- set defaults
+display.setDefault("background", 0.05, 0.05, 0.28)
+
 -- new image sheet
-local shooterSheet = graphics.newImageSheet ("assets/images/sheet.png", sheetInfo:getSheet()) --( "assets/images/shooterSheet.png", sheetInfo:getSheet() )
+local mainSheet = graphics.newImageSheet ("assets/images/sheet.png", sheetInfo:getSheet()) --( "assets/images/shooterSheet.png", sheetInfo:getSheet() )
 
 -- init physics
 physics.start()
@@ -33,10 +39,12 @@ physics.setGravity(0, 0)
 local scene = composer.newScene()
 
 -- new display groups
-local backGroup = display.newGroup()
-local playerShotGroup = display.newGroup()
-local mainGroup = display.newGroup()
+local sfGroup = display.newGroup()
 local uiGroup = display.newGroup()
+
+-- the starfield background
+local starfield = sf.new(100, 5, 20)
+starfield:create(sfGroup)
 
 -- two sticks
 local stickShip -- for the ship
@@ -109,6 +117,8 @@ local function onEnterFrame(event)
 	stickGunDistance.text = "Distance: " .. stickGun:getDistance()
 	stickGunPercent.text = "Percent: " .. stickGun:getPercent()
 
+	starfield:update(stickShip:getPercent(), stickShip:getAngle())
+
 end
 
 -----------------------------------------------------------
@@ -128,17 +138,12 @@ function scene:create(event)
 
 	physics.pause()
 
-	print(math.huge)
-
-	local centerRect = display.newRect(backGroup, 960, 540, 1080, 1080)
-	centerRect:setFillColor(0.1, 0.1, 0.5)
-
 	-- create stick for the ship
 	stickShip = StickLib.NewStick(
 	{
 		x = 210,
 		y = 800,
-		imageSheet = shooterSheet,
+		imageSheet = mainSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
 		scale = 2.0,
@@ -154,7 +159,7 @@ function scene:create(event)
 	{
 		x = 1710,
 		y = 800,
-		imageSheet = shooterSheet,
+		imageSheet = mainSheet,
 		imageMain = sheetInfo:getFrameIndex("joystickMain"),
 		imageThumb = sheetInfo:getFrameIndex("joystickThumb"),
 		scale = 2.0,
@@ -164,6 +169,9 @@ function scene:create(event)
 		G = 0, 
 		B = 0
 	})
+
+	uiGroup:insert(stickShip)
+	uiGroup:insert(stickGun)
 
 	physics.start()
 
