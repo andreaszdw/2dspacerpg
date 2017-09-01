@@ -43,8 +43,9 @@ local sfGroup = display.newGroup()
 local uiGroup = display.newGroup()
 
 -- the starfield background
-local starfield = sf.new(100, 5, 20)
+local starfield = sf.new(200, 7, 20, 2)
 starfield:create(sfGroup)
+--sfGroup:scale(0.5, 0.5)
 
 -- two sticks
 local stickShip -- for the ship
