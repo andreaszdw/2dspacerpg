@@ -16,7 +16,7 @@ local starfield_mt = { __index = starfield }	-- metatable
 -----------------------------------------------------------
 -- constructor
 -----------------------------------------------------------
-function starfield.new(total, starsMaxSize, speed, maxScaleSize)	
+function starfield.new(total, starsMaxSize, speed, minScaleSize)	
 	local newStarfield = {
 		stars = {},
 		total = total or 600,
@@ -26,7 +26,7 @@ function starfield.new(total, starsMaxSize, speed, maxScaleSize)
 		field3 = 0,
 		speed = speed or 1,
 		starsMaxSize = starsMaxSize or 5,
-		maxScaleSize = maxScaleSize or 2
+		minScaleSize = minScaleSize or 0.5
 	}
 	return setmetatable( newStarfield, starfield_mt )
 end
@@ -43,7 +43,7 @@ function starfield:create(group)
 	for i = 1, self.total do
 		local star = {} 
 		self.starSize = math.random(self.starsMaxSize)
-		star.object = display.newRect(math.random(display.contentWidth*self.maxScaleSize),math.random(display.contentHeight*self.maxScaleSize), self.starSize, self.starSize)
+		star.object = display.newRect(math.random(display.contentWidth*1/self.minScaleSize),math.random(display.contentHeight*1/self.minScaleSize), self.starSize, self.starSize)
 		star.object:setFillColor(1, 1, 1, math.random(30, 100)/100)
 		group:insert(star.object)
 		self.stars[i] = star
@@ -80,19 +80,19 @@ function starfield:update(percent, angle)
         self.stars[i].object.y  = self.stars[i].object.y + starspeed  * normalizedX        
         self.stars[i].object.x  = self.stars[i].object.x - starspeed  * normalizedY
 
-        if self.stars[i].object.y > display.contentHeight * self.maxScaleSize then
+        if self.stars[i].object.y > display.contentHeight * 1/self.minScaleSize then
         	self.stars[i].object.y = 0
         end
 
         if self.stars[i].object.y < 0 then
-         	self.stars[i].object.y = display.contentHeight * self.maxScaleSize
+         	self.stars[i].object.y = display.contentHeight * 1/self.minScaleSize
         end
 
-        if self.stars[i].object.x > display.contentWidth * self.maxScaleSize then
+        if self.stars[i].object.x > display.contentWidth * 1/self.minScaleSize then
         	self.stars[i].object.x = 0
         end
         if self.stars[i].object.x < 0 then
-        	self.stars[i].object.x = display.contentWidth * self.maxScaleSize
+        	self.stars[i].object.x = display.contentWidth * 1/self.minScaleSize
         end
 	end
 end

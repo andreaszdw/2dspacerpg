@@ -22,6 +22,9 @@ local physics = require("physics")
 -- add analog stick
 local StickLib = require("analog_stick.lib_analog_stick")
 
+-- for buttons
+local widget = require("widget")
+
 -- add the view
 local view = require("view")
 local camera = view.new()
@@ -43,6 +46,7 @@ local scene = composer.newScene()
 -- display group, must be the last defined, so it is in the foreground
 local uiGroup = display.newGroup()
 
+
 -- two sticks
 local stickShip -- for the ship
 local stickGun -- for the gun
@@ -61,6 +65,60 @@ infoText:setFillColor(gradient)
 
 -- activate multitouch
 system.activate("multitouch")
+
+-- function to handle button scaleDown
+local function handleScaleDownButtonEvent(event)
+
+	if("ended" == event.phase) then
+		print("ScaleDown released")
+		camera:setZoom(camera:getZoom() + 0.1)
+	end
+end
+
+-- now the scaleDownButton
+local scaleDownButton = widget.newButton(
+	{
+		left = 20,
+		top = 60,
+		width = 80,
+		height = 80,
+		label = "-",
+		font = "assets/fonts/kenvector_future.ttf",
+		fontSize = 40,
+		onEvent = handleScaleDownButtonEvent,
+		shape = "roundedRect",
+        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 4
+	}
+)
+
+-- function to handle button scaleDown
+local function handleScaleUpButtonEvent(event)
+
+	if("ended" == event.phase) then
+		camera:setZoom(camera:getZoom() - 0.1)
+	end
+end
+
+-- now the scaleDownButton
+local scaleUpButton = widget.newButton(
+	{
+		left = 20,
+		top = 200,
+		width = 80,
+		height = 80,
+		id = "scaleUpButton",
+		label = "+",
+		font = "assets/fonts/kenvector_future.ttf",
+		fontSize = 40,
+		onEvent = handleScaleUpButtonEvent,
+		shape = "roundedRect",
+        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 4
+	}
+)
 
 -----------------------------------------------------------
 --

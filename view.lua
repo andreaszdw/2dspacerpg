@@ -21,8 +21,12 @@ local view_mt = { __index = view }	-- metatable
 -----------------------------------------------------------
 function view.new()	
 	local newView = {
-		sfGroup,
-		starfield
+		maxZoom = maxZoom or 1,
+		minZoom = minZoom or 0.5,
+		zoom = zoom or 1,
+		sfGroup, -- display group for the starfield		
+		starfield, -- the starfield
+		entityGroup,
 	}
 	return setmetatable(newView, view_mt)
 end
@@ -33,11 +37,16 @@ end
 function view:create()
 
 	--the starfield background
-	self.starfield = sf.new(200, 7, 20, 2)
+	self.starfield = sf.new(200, 7, 20, self.minZoom)
 	self.sfGroup = display.newGroup()
+	self.sfGroup.anchorX, self.sfGroup.anchorY = 0.5, 0.5
 
 	self.starfield:create(self.sfGroup)
-	self.sfGroup:scale(0.5, 0.5)
+	--self.sfGroup:scale(0.5, 0.5)
+
+	-- the entities
+	self.entityGroup = display.newGroup()
+
 
 end
 
@@ -46,8 +55,31 @@ end
 -----------------------------------------------------------
 function view:update(p, a)
 
+	self.sfGroup.xScale = self.zoom
+	self.sfGroup.xScale = self.zoom
 	self.starfield:update(p, a)
 
+
+end
+
+-----------------------------------------------------------
+-- set zoom
+-----------------------------------------------------------
+function view:setZoom(zoom)
+
+	self.zoom = zoom
+
+	if self.zoom < self.minZoom then self.zoom = self.minZoom end
+
+	if self.zoom > self.maxZoom then self.zoom = self.maxZoom end
+
+end
+
+-----------------------------------------------------------
+-- get zoom
+-----------------------------------------------------------
+function view:getZoom()
+	return self.zoom
 end
 
 -----------------------------------------------------------
