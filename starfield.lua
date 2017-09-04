@@ -48,6 +48,10 @@ function starfield:create(group)
 		group:insert(star.object)
 		self.stars[i] = star
 	end
+
+	--[[testObject = display.newRect(0, 0, 120, 120)
+	testObject:setFillColor(1, 0, 0, 1)
+	group:insert(testObject)]]--
 end
 
 -----------------------------------------------------------
