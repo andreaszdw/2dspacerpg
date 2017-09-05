@@ -13,8 +13,12 @@
 -- add composer
 local composer = require("composer")
 
+-- important minSheet and sheetInfo, have to be globals
 -- add the sheet
-local sheetInfo = require("sheet") --("shooterSheet")
+sheetInfo = require("sheet") --("shooterSheet")
+
+-- new image sheet
+mainSheet = graphics.newImageSheet ("assets/images/sheet.png", sheetInfo:getSheet())
 
 -- add physics
 local physics = require("physics")
@@ -30,11 +34,11 @@ local view = require("view")
 local camera = view.new()
 camera:create()
 
+-- the player
+local pl = require("player")
+
 -- set defaults
 display.setDefault("background", 0.05, 0.05, 0.28)
-
--- new image sheet
-local mainSheet = graphics.newImageSheet ("assets/images/sheet.png", sheetInfo:getSheet()) --( "assets/images/shooterSheet.png", sheetInfo:getSheet() )
 
 -- init physics
 physics.start()
@@ -131,6 +135,22 @@ local function onEnterFrame(event)
 
 	-- update the camera
 	camera:update(stickShip:getPercent(), stickShip:getAngle())
+	player:rotate(stickShip:getAngle())
+
+end
+
+-----------------------------------------------------------
+--
+-- load level
+--
+-----------------------------------------------------------
+local function loadLevel()
+
+	player = pl.new()
+	player:create(0, 0, "assets/jsons/ship01.json")
+	camera:addToEntityGroup(player.image)
+	camera:focus(0, 0)
+
 
 end
 
@@ -144,8 +164,17 @@ local function onCollision(event)
 end
 
 -----------------------------------------------------------
+--
+-- on touch function
+--
+-----------------------------------------------------------
+local function onTouch(event)
+
+end
+-----------------------------------------------------------
 -- 
 -- now the scene functions coming
+--
 -----------------------------------------------------------
 function scene:create(event)
 
@@ -188,6 +217,7 @@ function scene:create(event)
 
 	physics.start()
 
+	loadLevel()
 end
 
 -----------------------------------------------------------
@@ -223,6 +253,7 @@ scene:addEventListener("destroy", scene)
 
 Runtime:addEventListener("enterFrame", onEnterFrame)
 Runtime:addEventListener("collision", onCollision)
+Runtime:addEventListener("touch", onTouch)
 
 -----------------------------------------------------------
 return scene

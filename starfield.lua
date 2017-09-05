@@ -14,7 +14,9 @@ local starfield = {}
 local starfield_mt = { __index = starfield }	-- metatable
 
 -----------------------------------------------------------
+--
 -- constructor
+--
 -----------------------------------------------------------
 function starfield.new(total, starsMaxSize, speed, minScaleSize)	
 	local newStarfield = {
@@ -32,7 +34,9 @@ function starfield.new(total, starsMaxSize, speed, minScaleSize)
 end
 
 -----------------------------------------------------------
+--
 -- create the starfield
+--
 -----------------------------------------------------------
 function starfield:create(group)
 
@@ -49,13 +53,12 @@ function starfield:create(group)
 		self.stars[i] = star
 	end
 
-	--[[testObject = display.newRect(0, 0, 120, 120)
-	testObject:setFillColor(1, 0, 0, 1)
-	group:insert(testObject)]]--
 end
 
 -----------------------------------------------------------
+--
 -- update it
+--
 -----------------------------------------------------------
 function starfield:update(percent, angle)
 
