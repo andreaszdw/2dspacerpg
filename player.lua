@@ -13,24 +13,30 @@
 local json = require("json")
 
 local player = {}
-local player_mt = { __index = player }	-- metatable
 
 -----------------------------------------------------------
 --
 -- constructor
 --
 -----------------------------------------------------------
-function player.new()	
-	local newPlayer = {
-		speed = speed or 0,
+function player:new()
+	o = {
+		maxspeed = maxspeed or 0, -- per second
+		speed = speed or 0, -- per second
+		acceleration = acceleration or o, -- per second
+		turnSpeed = turnSpeed or 0, -- per second
+		stickAngle = 0,
+		stickPercent = 0,
 		image = image or ""
 	}
-	return setmetatable( newPlayer, player_mt )
+	setmetatable(o, self)
+	self.__index = self
+	return o
 end
 
 -----------------------------------------------------------
 --
--- create the starfield
+-- create the player
 --
 -----------------------------------------------------------
 function player:create(x, y, jsonFile)
@@ -43,6 +49,9 @@ function player:create(x, y, jsonFile)
 		self.image = display.newImage(mainSheet, sheetInfo:getFrameIndex(decoded.image))
 		self.image.x = x
 		self.image.y = y
+		self.maxSpeed = tonumber(decoded.maxSpeed)
+		self.turnSpeed = tonumber(decoded.turnSpeed)
+		self.acceleration = tonumber(decoded.acceleration)
 	end
 
 end
@@ -60,10 +69,71 @@ end
 
 -----------------------------------------------------------
 --
+-- setStick
+--
+-----------------------------------------------------------
+function player:setStick(percent, angle)
+
+	self.stickPercent = percent
+	self.stickAngle = angle
+
+end
+
+-----------------------------------------------------------
+--
 -- update it
 --
 -----------------------------------------------------------
 function player:update()
+
+	local source = self.image.rotation 
+	local destination = self.stickAngle
+	local diff = source - destination + 360
+
+	local turnDirection = 0
+
+	if (diff % 360) > 180 then
+		turnDirection = 1
+	else
+		turnDirection = -1
+	end
+
+	self.image.rotation = self.image.rotation + self.turnSpeed/60 * turnDirection
+	self.image.rotation = self.image.rotation % 360
+
+end
+
+-----------------------------------------------------------
+--
+-- get position
+--
+-----------------------------------------------------------
+function player:getPosition()
+
+	return self.image.x, self.image.y
+
+end
+
+-----------------------------------------------------------
+--
+-- get speed
+--
+-----------------------------------------------------------
+function player:getSpeed()
+	
+	return self.speed
+
+end
+
+-----------------------------------------------------------
+--
+-- get angle
+--
+-----------------------------------------------------------
+function player:getAngle()
+
+	return self.image.rotation
+
 end
 
 -----------------------------------------------------------

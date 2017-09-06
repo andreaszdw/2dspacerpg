@@ -31,7 +31,7 @@ local widget = require("widget")
 
 -- add the view
 local view = require("view")
-local camera = view.new()
+local camera = view:new()
 camera:create()
 
 -- the player
@@ -55,10 +55,14 @@ local uiGroup = display.newGroup()
 local stickShip -- for the ship
 local stickGun -- for the gun
 
--- set Info text for stickShip
-local infoText = display.newText( uiGroup, "Info Text", 10, 10, "assets/fonts/kenvector_future.ttf", 40 )
+-- set Info text for ship
+local infoText = display.newText( uiGroup, "Ship position: ", 10, 10, "assets/fonts/kenvector_future.ttf", 40 )
 infoText.anchorX = 0
 infoText.anchorY = 0
+
+local infoText2 = display.newText( uiGroup, "Ship speed/angle: ", 10, 50, "assets/fonts/kenvector_future.ttf", 40 )
+infoText2.anchorX = 0
+infoText2.anchorY = 0
 
 local gradient = {
     type="gradient",
@@ -66,6 +70,7 @@ local gradient = {
 }
 
 infoText:setFillColor(gradient)
+infoText2:setFillColor(gradient)
 
 -- activate multitouch
 system.activate("multitouch")
@@ -82,7 +87,7 @@ end
 -- now the scaleDownButton
 local scaleDownButton = widget.newButton(
 	{
-		left = 20,
+		left = 1800,
 		top = 60,
 		width = 80,
 		height = 80,
@@ -108,7 +113,7 @@ end
 -- now the scaleDownButton
 local scaleUpButton = widget.newButton(
 	{
-		left = 20,
+		left = 1800,
 		top = 200,
 		width = 80,
 		height = 80,
@@ -131,11 +136,14 @@ local scaleUpButton = widget.newButton(
 -----------------------------------------------------------
 local function onEnterFrame(event)
 
-	infoText.text = "Info Text"
+	infoText.text = "Ship position: " .. player.image.x .. "-" .. player.image.y
+	infoText2.text = "Ship speed: " .. player:getSpeed() .. " angle: " .. player:getAngle()
 
+	player:update()
 	-- update the camera
-	camera:update(stickShip:getPercent(), stickShip:getAngle())
-	player:rotate(stickShip:getAngle())
+	--camera:update(stickShip:getPercent(), stickShip:getAngle())
+	--player:rotate(stickShip:getAngle())
+	player:setStick(stickShip:getPercent(), stickShip:getAngle())
 
 end
 
@@ -146,12 +154,10 @@ end
 -----------------------------------------------------------
 local function loadLevel()
 
-	player = pl.new()
+	player = pl:new()
 	player:create(0, 0, "assets/jsons/ship01.json")
 	camera:addToEntityGroup(player.image)
 	camera:focus(0, 0)
-
-
 end
 
 -----------------------------------------------------------

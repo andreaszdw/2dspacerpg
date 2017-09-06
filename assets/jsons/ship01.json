@@ -1,4 +1,6 @@
 {
     "image": "playerShip1_orange",
-    "speed": "200"
+    "maxSpeed": "200",
+    "accelerartion": "100",
+    "turnSpeed": "100"
 }

@@ -14,15 +14,15 @@
 --local sf = require("starfield")
 
 local view = {}
-local view_mt = { __index = view }	-- metatable
+--local view_mt = { __index = view }	-- metatable
 
 -----------------------------------------------------------
 --
 -- constructor
 --
 -----------------------------------------------------------
-function view.new()	
-	local newView = {
+function view:new()	
+	o = {
 		x = x or 0, -- the center of view
 		y = y or 0, -- the center of view
 		maxZoom = maxZoom or 1,
@@ -32,7 +32,9 @@ function view.new()
 		starfield, -- the starfield
 		entityGroup,
 	}
-	return setmetatable(newView, view_mt)
+	setmetatable(o, self)
+	self.__index = self
+	return o
 end
 
 -----------------------------------------------------------
@@ -43,7 +45,7 @@ end
 function view:create()
 
 	--[[the starfield background
-	self.starfield = sf.new(200, 7, 20, self.minZoom)
+	self.starfield = sf:new(200, 7, 20, self.minZoom)
 	self.sfGroup = display.newGroup()
 	self.sfGroup.anchorX, self.sfGroup.anchorY = 0.5, 0.5
 

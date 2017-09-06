@@ -11,7 +11,7 @@
 -------------------------------------------------------------------------------
 
 local starfield = {}
-local starfield_mt = { __index = starfield }	-- metatable
+--local starfield_mt = { __index = starfield }	-- metatable
 
 -----------------------------------------------------------
 --
@@ -19,7 +19,7 @@ local starfield_mt = { __index = starfield }	-- metatable
 --
 -----------------------------------------------------------
 function starfield.new(total, starsMaxSize, speed, minScaleSize)	
-	local newStarfield = {
+	o = {
 		stars = {},
 		total = total or 600,
 		group = group,
@@ -30,7 +30,9 @@ function starfield.new(total, starsMaxSize, speed, minScaleSize)
 		starsMaxSize = starsMaxSize or 5,
 		minScaleSize = minScaleSize or 0.5
 	}
-	return setmetatable( newStarfield, starfield_mt )
+	setmetatable(o, self)
+	self.__index = self
+	return o
 end
 
 -----------------------------------------------------------
@@ -61,7 +63,6 @@ end
 --
 -----------------------------------------------------------
 function starfield:update(percent, angle)
-
 
 	local angleRad = (math.pi * angle) / 180
 	local normalizedX = math.cos(angleRad)
